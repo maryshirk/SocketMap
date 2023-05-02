@@ -21,4 +21,4 @@ jobs:
         cache: gradle
         
     - name: Build with Gradle
-      run: /SocketMap/build.gradle
+      run: SocketMap/build.gradle
