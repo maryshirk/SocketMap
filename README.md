@@ -47,7 +47,7 @@ project for Samsung IT School
 3)	Из профиля можно организовать свое место и отметить его на карте, следить за отзывами. Вкладка в профиле «мои отметки».
 
 # ER-Diagram
-![Иллюстрация к проекту](https://github.com/maryshirk/IntensiveYandex-django/blob/main/er_diag.png)
+![Иллюстрация к проекту](https://github.com/maryshirk/SocketMap/blob/main/erdiagram.png)
 ## Руководство по запуску
 ### 1. Клонирование
 ```
