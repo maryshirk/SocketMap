@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">SocketMap</string>
+    <string name="profile">Профиль</string>
+    <string name="rating">Рейтинг</string>
+    <string name="map">Карта</string>
+    <string name="registration">Регистрация</string>
+    <string name="email">Email</string>
+    <string name="phone">Контактный телефон</string>
+    <string name="city">Город</string>
+    <string name="name">Имя</string>
+    <string name="pass">Пароль</string>
+    <string name="pass_again">Пароль еще раз</string>
+    <string name="visits">Мои посещения</string>
+    <string name="reactions">Мои реакции</string>
+    <string name="marks">Мои отметки</string>
+    <string name="count_visits">Количество посещений: </string>
+    <string name="count_rating">Количество отзывов: </string>
+    <string name="search">Поиск розетки...</string>
+    <string name="edit_info">Редактировать</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="edit_rating">Изменить оценку</string>
+    <string name="welcome">Добро пожаловать! Заполните регистрационную форму.</string>
 </resources>

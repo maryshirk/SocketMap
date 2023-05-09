@@ -1,15 +1,16 @@
 plugins {
     id 'com.android.application'
+    id "com.google.gms.google-services"
 }
 
 android {
     namespace 'com.samsung.socketmap'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.samsung.socketmap"
-        minSdk 25
-        targetSdk 32
+        minSdk 24
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -29,11 +30,19 @@ android {
 }
 
 dependencies {
-
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth:22.0.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-database:16.0.2'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 }
