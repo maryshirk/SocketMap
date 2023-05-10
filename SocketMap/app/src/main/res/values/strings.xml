@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SocketMap</string>
     <string name="profile">Профиль</string>
@@ -19,5 +20,9 @@
     <string name="edit_info">Редактировать</string>
     <string name="register">Зарегистрироваться</string>
     <string name="edit_rating">Изменить оценку</string>
-    <string name="welcome">Добро пожаловать! Заполните регистрационную форму.</string>
+    <string name="enter">Войти</string>
+    <string name="welcome">Добро пожаловать!
+        Заполните регистрационную форму.</string>
+    <string name="welcome2">Добро пожаловать!
+        Войдите в учетную запись.</string>
 </resources>
