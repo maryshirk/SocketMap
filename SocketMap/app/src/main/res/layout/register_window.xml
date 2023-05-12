@@ -56,18 +56,16 @@
                 android:id="@+id/name_field"
                 android:hint="@string/name"
                 android:background="@drawable/card"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text"
-                android:textSize="16sp"
+                android:textSize="16sp"/>
 
-                app:met_floatingLabel="normal"
-                app:met_singleLineEllipsis="true"
-                app:met_baseColor="@color/black"
-                app:met_primaryColor="@color/gray_text"
-                app:met_minCharacters="2"
-                app:met_maxCharacters="50"/>
+<!--                app:met_floatingLabel="normal"-->
+<!--                app:met_singleLineEllipsis="true"-->
+<!--                app:met_baseColor="@color/black"-->
+<!--                app:met_primaryColor="@color/gray_text" -->
 
 
         </LinearLayout>
@@ -96,14 +94,14 @@
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text"
-                android:textSize="16sp"
+                android:textSize="16sp"/>
 
-                app:met_floatingLabel="normal"
-                app:met_singleLineEllipsis="true"
-                app:met_baseColor="@color/black"
-                app:met_primaryColor="@color/gray_text"
-                app:met_minCharacters="2"
-                app:met_maxCharacters="50"/>
+<!--                app:met_floatingLabel="normal"-->
+<!--                app:met_singleLineEllipsis="true"-->
+<!--                app:met_baseColor="@color/black"-->
+<!--                app:met_primaryColor="@color/gray_text"-->
+<!--                app:met_minCharacters="2"-->
+<!--                app:met_maxCharacters="50"-->
 
 
         </LinearLayout>
@@ -125,21 +123,21 @@
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
                 android:layout_height="47dp"
-                android:id="@+id/city"
+                android:id="@+id/email_field"
                 android:hint="@string/email"
                 android:background="@drawable/card"
                 android:inputType="textEmailAddress"
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text"
-                android:textSize="16sp"
+                android:textSize="16sp"/>
 
-                app:met_floatingLabel="normal"
-                app:met_singleLineEllipsis="true"
-                app:met_baseColor="@color/black"
-                app:met_primaryColor="@color/gray_text"
-                app:met_minCharacters="2"
-                app:met_maxCharacters="50"/>
+<!--                app:met_floatingLabel="normal"-->
+<!--                app:met_singleLineEllipsis="true"-->
+<!--                app:met_baseColor="@color/black"-->
+<!--                app:met_primaryColor="@color/gray_text"-->
+<!--                app:met_minCharacters="2"-->
+<!--                app:met_maxCharacters="50"-->
 
 
         </LinearLayout>
@@ -168,14 +166,14 @@
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text"
-                android:textSize="16sp"
+                android:textSize="16sp" />
 
-                app:met_floatingLabel="normal"
-                app:met_singleLineEllipsis="true"
-                app:met_baseColor="@color/black"
-                app:met_primaryColor="@color/gray_text"
-                app:met_minCharacters="4"
-                app:met_maxCharacters="50"/>
+<!--                app:met_floatingLabel="normal"-->
+<!--                app:met_singleLineEllipsis="true"-->
+<!--                app:met_baseColor="@color/black"-->
+<!--                app:met_primaryColor="@color/gray_text"-->
+<!--                app:met_minCharacters="4"-->
+<!--                app:met_maxCharacters="50"-->
 
 
         </LinearLayout>
@@ -204,14 +202,14 @@
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text"
-                android:textSize="16sp"
+                android:textSize="16sp" />
 
-                app:met_floatingLabel="normal"
-                app:met_singleLineEllipsis="true"
-                app:met_baseColor="@color/black"
-                app:met_primaryColor="@color/gray_text"
-                app:met_minCharacters="4"
-                app:met_maxCharacters="50"/>
+<!--                app:met_floatingLabel="normal"-->
+<!--                app:met_singleLineEllipsis="true"-->
+<!--                app:met_baseColor="@color/black"-->
+<!--                app:met_primaryColor="@color/gray_text"-->
+<!--                app:met_minCharacters="4"-->
+<!--                app:met_maxCharacters="50"-->
 
 
         </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root_element"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -50,7 +51,7 @@
             android:background="@drawable/button"
             android:textColor="@color/black"
             android:textAppearance="@style/title"
-            android:id="@+id/btn_enter"
+            android:id="@+id/btn_sign"
             android:text="@string/enter" />
 
         <androidx.appcompat.widget.AppCompatButton
