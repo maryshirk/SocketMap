@@ -82,7 +82,7 @@ dependencies {
 
     //implementation 'com.yandex.android:maps.mobile:4.3.1-lite'
     //implementation 'com.yandex.android:maps.mobile:4.3.1-full'
-    //implementation 'com.yandex.android:mapkit:3.0.0'
+    // implementation 'com.yandex.android:mapkit:3.0.0'
     //implementation 'com.yandex.android:mapkit-android:4.0.1'
     //implementation 'com.yandex.android:search:suggest-3.5.2'
 
