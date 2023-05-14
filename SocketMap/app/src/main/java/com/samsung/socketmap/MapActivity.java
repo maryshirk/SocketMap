@@ -1,11 +1,11 @@
 package com.samsung.socketmap;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -13,6 +13,7 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
 
         ImageView ratingIcon = findViewById(R.id.rating_icon);
         ratingIcon.setOnClickListener(new View.OnClickListener() {

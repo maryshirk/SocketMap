@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/profile"
+    android:id="@+id/map"
     tools:context=".ProfileActivity">
 
     <LinearLayout
-        style="@style/app_style"
+        app:layout_constraintBottom_toTopOf="@id/line"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_margin="24dp"
@@ -30,10 +30,19 @@
             app:layout_constraintRight_toRightOf="@id/main"
 
             />
+
+        <fragment
+            android:id="@+id/google_map"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.google.android.gms.maps.SupportMapFragment"/>
     </LinearLayout>
 
     <View
         app:layout_constraintBottom_toTopOf="@id/horizontal_scroll_view"
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/gray_main"

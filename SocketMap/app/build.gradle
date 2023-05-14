@@ -79,4 +79,12 @@ dependencies {
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    //implementation 'com.yandex.android:maps.mobile:4.3.1-lite'
+    //implementation 'com.yandex.android:maps.mobile:4.3.1-full'
+    //implementation 'com.yandex.android:mapkit:3.0.0'
+    //implementation 'com.yandex.android:mapkit-android:4.0.1'
+    //implementation 'com.yandex.android:search:suggest-3.5.2'
+
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 }
