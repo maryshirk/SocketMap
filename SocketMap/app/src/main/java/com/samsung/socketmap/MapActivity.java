@@ -5,9 +5,10 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,28 +17,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,16 +45,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.samsung.socketmap.models.DBImitation;
 import com.samsung.socketmap.models.Place;
-import com.samsung.socketmap.models.User;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+import com.google.android.gms.maps.GoogleMap;
+import com.samsung.socketmap.models.Rating;
+
+
+public class MapActivity extends AppCompatActivity implements
+        GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        OnMapReadyCallback {
+
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private GoogleMap myMap;
-    private final Place[] places = DBImitation.places;
     private DatabaseReference placesRef;
+    private DatabaseReference ratingRef;
     private FirebaseDatabase database;
 
     @Override
@@ -65,6 +70,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         database = FirebaseDatabase.getInstance();
         placesRef = database.getReference("places");
+        ratingRef = database.getReference("raiting");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.google_map);
@@ -164,6 +170,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         myMap.setOnMapClickListener(this);
         myMap.setOnMapLongClickListener(this);
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request permission if not granted
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        } else {
+            // Permission already granted, enable the map to show current location
+            myMap.setMyLocationEnabled(true);
+            myMap.setOnMyLocationButtonClickListener(this);
+            myMap.setOnMyLocationClickListener(this);
+        }
+
+
         placesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -196,9 +213,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
 
+                RatingBar ratingBar = dialog.getWindow().findViewById(R.id.ratingBar);
+
+                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating,
+                                                boolean fromUser) {
+                        ratingBar.setRating(rating);
+                        Toast.makeText(MapActivity.this, "рейтинг: " + String.valueOf(rating),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
                 LatLng position = marker.getPosition();
                 double latitude = position.latitude;
                 double longitude = position.longitude;
+
+                final String[] placeIdneed = new String[1];
 
 
                 Query query = placesRef.orderByChild("latitude").equalTo(latitude);
@@ -215,6 +247,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                                     tv_address.setText(place.getAddress());
                                     tv_description.setText(place.getDescription());
+
+                                    // ratingBar.setRating();
+
+                                    placeIdneed[0] = place.getPlaceId();
                                 }
                             }
                         } else {
@@ -227,9 +263,41 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         // Обработка ошибок доступа к базе данных
                     }
                 });
+                Button btnRating = dialog.getWindow().findViewById(R.id.btn_rating);
+                btnRating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        float rating = ratingBar.getRating();
+
+                        if (placeIdneed[0].isEmpty()) {
+
+                        } else {
+                            String placeId = placeIdneed[0];
+                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+
+                            Rating newRating = new Rating(placeId, userId, rating);
+                            ratingRef.child(ratingRef.push().getKey().toString()).setValue(newRating);
+                        }
+                    }
+                });
                 return true;
             }
         });
-
     }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        // Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
+        //        .show();
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
+        //        .show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
 }

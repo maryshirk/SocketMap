@@ -9,7 +9,7 @@
         android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="24dp"
         android:textStyle="bold"
         android:text="Адрес"
         android:textColor="@color/black"
@@ -19,8 +19,30 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="24dp"
         android:text="Описание"
         android:textColor="@color/black"
         android:textSize="20sp" />
+
+    <RatingBar
+        android:layout_marginLeft="24dp"
+        android:id="@+id/ratingBar"
+        style="@style/MyRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:outlineSpotShadowColor="@color/green_main"
+        android:outlineAmbientShadowColor="@color/green_main"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_width="185dp"
+        android:background="@drawable/button"
+        android:textColor="@color/black"
+        android:textAppearance="@style/title"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btn_rating"
+        android:text="Добавить рейтинг" />
+
 </LinearLayout>
