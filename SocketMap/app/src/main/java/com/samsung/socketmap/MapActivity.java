@@ -36,7 +36,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,6 +65,7 @@ public class MapActivity extends AppCompatActivity implements
     private DatabaseReference placesRef;
     private DatabaseReference ratingRef;
     private FirebaseDatabase database;
+    private float averageRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,31 +211,20 @@ public class MapActivity extends AppCompatActivity implements
                 Dialog dialog = new Dialog(MapActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.card_place);
-                dialog.show();
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
 
                 RatingBar ratingBar = dialog.getWindow().findViewById(R.id.ratingBar);
-
-                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating,
-                                                boolean fromUser) {
-                        ratingBar.setRating(rating);
-                        Toast.makeText(MapActivity.this, "рейтинг: " + String.valueOf(rating),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+                TextView tv_address = dialog.getWindow().findViewById(R.id.tv_address);
+                TextView tv_description = dialog.getWindow().findViewById(R.id.tv_description);
 
                 LatLng position = marker.getPosition();
                 double latitude = position.latitude;
                 double longitude = position.longitude;
 
                 final String[] placeIdneed = new String[1];
-
 
                 Query query = placesRef.orderByChild("latitude").equalTo(latitude);
 
@@ -242,13 +235,8 @@ public class MapActivity extends AppCompatActivity implements
                             for (DataSnapshot placeSnapshot : dataSnapshot.getChildren()) {
                                 Place place = placeSnapshot.getValue(Place.class);
                                 if (place.getLongitude() == longitude) {
-                                    TextView tv_address = dialog.getWindow().findViewById(R.id.tv_address);
-                                    TextView tv_description = dialog.getWindow().findViewById(R.id.tv_description);
-
                                     tv_address.setText(place.getAddress());
                                     tv_description.setText(place.getDescription());
-
-                                    // ratingBar.setRating();
 
                                     placeIdneed[0] = place.getPlaceId();
                                 }
@@ -263,23 +251,108 @@ public class MapActivity extends AppCompatActivity implements
                         // Обработка ошибок доступа к базе данных
                     }
                 });
+
+                String placeId = placeIdneed[0];
+
+                Query query2 = ratingRef.orderByChild("placeId").equalTo(placeId);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        float sum = 0;
+                        int count = 0;
+                        for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                            Rating rating = ratingSnapshot.getValue(Rating.class);
+                            sum += rating.getGrade();
+                            count++;
+                        }
+                        if (count > 0) {
+                            float average = (float) sum / count;
+                            RatingBar ratingBar = dialog.getWindow().findViewById(R.id.ratingBar);
+                            ratingBar.setIsIndicator(true);
+                            ratingBar.setRating(average);
+                            ratingBar.setEnabled(false);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "Failed to read value.", databaseError.toException());
+                    }
+                });
+
+
                 Button btnRating = dialog.getWindow().findViewById(R.id.btn_rating);
                 btnRating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        float rating = ratingBar.getRating();
+                        AlertDialog.Builder dialog2 = new AlertDialog.Builder(MapActivity.this);
 
-                        if (placeIdneed[0].isEmpty()) {
+                        LayoutInflater inflater = LayoutInflater.from(MapActivity.this);
+                        View rating_window = inflater.inflate(R.layout.rating_window, null);
+                        dialog2.setView(rating_window);
 
-                        } else {
-                            String placeId = placeIdneed[0];
-                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+                        RatingBar ratingBarEdit = rating_window.findViewById(R.id.ratingBarEdit);
 
-                            Rating newRating = new Rating(placeId, userId, rating);
-                            ratingRef.child(ratingRef.push().getKey().toString()).setValue(newRating);
-                        }
+                        ratingBarEdit.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                            @Override
+                            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                                        boolean fromUser) {
+                                ratingBar.setRating(rating);
+                                Toast.makeText(MapActivity.this, "рейтинг: " + String.valueOf(rating),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        dialog2.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        dialog2.setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                float rating = ratingBarEdit.getRating();
+
+                                if (placeIdneed[0].isEmpty()) {
+
+                                } else {
+                                    String placeId = placeIdneed[0];
+                                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+                                    Rating newRating = new Rating(placeId, userId, rating);
+
+                                    Query query3 = ratingRef.orderByChild("userId").equalTo(userId);
+                                    query3.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            boolean found = false;
+                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                Rating oldRating = snapshot.getValue(Rating.class);
+                                                if (oldRating.getPlaceId().equals(placeId) && !found) {
+                                                    oldRating.setGrade(rating); // Обновляем значение рейтинга
+                                                    ratingRef.child(snapshot.getKey()).setValue(oldRating);
+                                                    found = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!found) {
+                                                // Рейтинг пользователя для этого места не найден, создаем новый
+                                                ratingRef.child(ratingRef.push().getKey().toString()).setValue(newRating);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            // Обработка ошибок
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                        dialog2.show();
                     }
                 });
+                dialog.show();
                 return true;
             }
         });

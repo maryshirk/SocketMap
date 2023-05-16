@@ -11,6 +11,10 @@ public class Rating {
         this.grade = grade;
     }
 
+    public Rating() {
+        // Пустой конструктор без аргументов для Firebase
+    }
+
     public String getPlaceId() {
         return placeId;
     }
@@ -31,7 +35,7 @@ public class Rating {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(float grade) {
         this.grade = grade;
     }
 }

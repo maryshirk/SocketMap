@@ -9,6 +9,8 @@ public class Place {
     public String userId;
     public double latitude;
     public double longitude;
+    private float avgRating;
+    private int countRating;
 
     public Place(String placeId, String address, String description, String userId, double latitude, double longitude) {
         this.placeId = placeId;
@@ -73,5 +75,21 @@ public class Place {
 
     public LatLng getLatLng() {
         return new LatLng(this.latitude, this.longitude);
+    }
+
+    public float getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(float avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public int getCountRating() {
+        return countRating;
+    }
+
+    public void setCountRating(int countRating) {
+        this.countRating = countRating;
     }
 }

@@ -38,7 +38,7 @@
 
     <style name="MyRatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/green_main</item>
-        <item name="colorControlActivated">@color/green_main</item>
+        <item name="colorControlActivated">@color/green_heading</item>
     </style>
 
 </resources>
