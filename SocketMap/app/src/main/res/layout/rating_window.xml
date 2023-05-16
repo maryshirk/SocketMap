@@ -29,6 +29,9 @@
             android:layout_marginTop="24dp"
             android:id="@+id/ratingBarEdit"
             style="@style/MyRatingBar"
+            android:progressTint="@color/green_main"
+            android:secondaryProgressTint="@color/green_main"
+            android:progressBackgroundTint="@color/gray_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

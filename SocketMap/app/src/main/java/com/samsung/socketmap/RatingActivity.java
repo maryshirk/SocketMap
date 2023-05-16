@@ -23,6 +23,8 @@ import com.samsung.socketmap.models.PlaceAdapter;
 import com.samsung.socketmap.models.Rating;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RatingActivity extends AppCompatActivity {
@@ -84,6 +86,12 @@ public class RatingActivity extends AppCompatActivity {
                             }
                             // Добавляем текущее место в список
                             placeList.add(place);
+                            Collections.sort(placeList, new Comparator<Place>() {
+                                @Override
+                                public int compare(Place o1, Place o2) {
+                                    return Float.compare(o2.getAvgRating(), o1.getAvgRating());
+                                }
+                            });
                             // Создаем адаптер и устанавливаем его для RecyclerView
                             RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                             rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));

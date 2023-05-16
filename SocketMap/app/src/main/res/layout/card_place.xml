@@ -27,7 +27,10 @@
     <RatingBar
         android:layout_marginLeft="24dp"
         android:id="@+id/ratingBar"
-        style="@style/MyRatingBar"
+        style="?android:attr/ratingBarStyle"
+        android:progressTint="@color/green_main"
+        android:secondaryProgressTint="@color/green_main"
+        android:progressBackgroundTint="@color/gray_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

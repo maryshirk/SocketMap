@@ -258,19 +258,24 @@ public class MapActivity extends AppCompatActivity implements
                 query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        float sum = 0;
+                        // Объявляем переменные для подсчета суммы и количества оценок
                         int count = 0;
+                        float sum = 0;
+                        // Проходимся по всем дочерним узлам в коллекции
                         for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                            // Получаем объект Rating из текущего узла
                             Rating rating = ratingSnapshot.getValue(Rating.class);
+                            // Суммируем все оценки
                             sum += rating.getGrade();
+                            // Увеличиваем счетчик оценок
                             count++;
                         }
+                        // Если были оценки, то вычисляем средний рейтинг для текущего места
                         if (count > 0) {
-                            float average = (float) sum / count;
-                            RatingBar ratingBar = dialog.getWindow().findViewById(R.id.ratingBar);
+                            float avgRating = sum / count;
+                            ratingBar.setRating(avgRating);
                             ratingBar.setIsIndicator(true);
-                            ratingBar.setRating(average);
-                            ratingBar.setEnabled(false);
+                            ratingBar.setRating(avgRating);
                         }
                     }
 
@@ -298,8 +303,6 @@ public class MapActivity extends AppCompatActivity implements
                             public void onRatingChanged(RatingBar ratingBar, float rating,
                                                         boolean fromUser) {
                                 ratingBar.setRating(rating);
-                                Toast.makeText(MapActivity.this, "рейтинг: " + String.valueOf(rating),
-                                        Toast.LENGTH_SHORT).show();
                             }
                         });
 

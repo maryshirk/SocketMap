@@ -35,6 +35,9 @@
         <RatingBar
             android:layout_marginLeft="24dp"
             style="?android:attr/ratingBarStyleSmall"
+            android:progressTint="@color/green_main"
+            android:secondaryProgressTint="@color/green_main"
+            android:progressBackgroundTint="@color/gray_main"
             android:id="@+id/ratingBarItem"
             android:layout_marginRight="24dp"
             android:layout_width="wrap_content"
