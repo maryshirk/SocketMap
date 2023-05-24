@@ -6,8 +6,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,6 +36,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -158,8 +163,18 @@ public class MapActivity extends AppCompatActivity implements
                         FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),
                         latLng);
 
+                int vectorResourceId = R.drawable.marker_socket;
+                Drawable vectorDrawable = getResources().getDrawable(vectorResourceId);
+
+                Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                        vectorDrawable.getIntrinsicHeight(),
+                        Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                vectorDrawable.draw(canvas);
+
                 MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
+                markerOptions.position(latLng).icon(BitmapDescriptorFactory.fromBitmap(bitmap));
                 myMap.addMarker(markerOptions);
                 myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
             }
@@ -184,6 +199,16 @@ public class MapActivity extends AppCompatActivity implements
             myMap.setOnMyLocationClickListener(this);
         }
 
+        int vectorResourceId = R.drawable.marker_socket;
+        Drawable vectorDrawable = getResources().getDrawable(vectorResourceId);
+
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+
 
         placesRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -194,7 +219,7 @@ public class MapActivity extends AppCompatActivity implements
                         Double latitude = placeSnapshot.child("latitude").getValue(Double.class);
                         Double longitude = placeSnapshot.child("longitude").getValue(Double.class);
                         if (latitude != null && longitude != null) {
-                            myMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(address));
+                            myMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(address).icon(BitmapDescriptorFactory.fromBitmap(bitmap)));
                         }
                     }
                 }

@@ -31,6 +31,38 @@
 
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:weightSum="2">
+
+            <EditText
+                android:layout_width="302dp"
+                android:layout_height="52dp"
+                android:id="@+id/search_field"
+                android:hint="  Поиск розетки..."
+                android:background="@drawable/card"
+                android:paddingRight="6dp"
+                android:inputType="text"
+                android:text=""
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_text"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:layout_marginLeft="8dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/search"
+                android:id="@+id/search"
+                android:background="@drawable/card"
+                android:tint="@color/gray_text" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

@@ -92,4 +92,8 @@ public class Place {
     public void setCountRating(int countRating) {
         this.countRating = countRating;
     }
+
+    public String getName() {
+        return address;
+    }
 }
