@@ -7,63 +7,126 @@
     android:id="@+id/root_element"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_height="match_parent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_margin="24dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="76dp"
+        android:scrollbars="none">
 
-        <TextView
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="24dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="44dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/app_name"
+                android:textAppearance="@style/collapsed_title"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:id="@+id/app_name"
+                />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/welcome2"
+                android:textAppearance="@style/title"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                android:id="@+id/welcome"
+                />
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/icon"
+                android:tint="@color/green_main"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_width="185dp"
+                android:background="@drawable/button"
+                android:textColor="@color/black"
+                android:textAppearance="@style/title"
+                android:id="@+id/btn_sign"
+                android:text="@string/enter" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_width="185dp"
+                android:background="@drawable/button"
+                android:textColor="@color/black"
+                android:textAppearance="@style/title"
+                android:id="@+id/btn_reg"
+                android:text="@string/register" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        app:layout_constraintBottom_toTopOf="@id/horizontal_scroll_view"
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_main"
+        android:layout_below="@id/horizontal_scroll_view"/>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginBottom="6dp"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/horizontal_layout"
+            android:layout_gravity="center"
+            android:weightSum="3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/app_name"
-            android:textAppearance="@style/collapsed_title"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:id="@+id/app_name"
-            />
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/welcome2"
-            android:textAppearance="@style/title"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:layout_marginTop="24dp"
-            android:id="@+id/welcome"
-            />
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/icon"
-            android:tint="@color/green_main"
-            />
+                <ImageView
+                    android:id="@+id/rating_icon"
+                    android:layout_weight="1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center_horizontal"
+                    app:tint="@color/gray_main"
+                    android:src="@drawable/icon"
+                    />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_width="185dp"
-            android:background="@drawable/button"
-            android:textColor="@color/black"
-            android:textAppearance="@style/title"
-            android:id="@+id/btn_sign"
-            android:text="@string/enter" />
+                <TextView
+                    android:id="@+id/rating_icon_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/socketmap"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:textAppearance="@style/main"
+                    android:textColor="@color/gray_main" />
+            </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_width="185dp"
-            android:background="@drawable/button"
-            android:textColor="@color/black"
-            android:textAppearance="@style/title"
-            android:id="@+id/btn_reg"
-            android:text="@string/register" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

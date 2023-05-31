@@ -26,4 +26,5 @@
     <string name="welcome2">Добро пожаловать!
         Войдите в учетную запись.</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="socketmap">SocketMap</string>
 </resources>
