@@ -49,13 +49,15 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="24dp"
                 android:id="@+id/profile_name"
+                android:layout_weight="2"
                 />
 
             <ImageView
                 android:layout_width="92dp"
                 android:layout_height="92dp"
                 android:src="@drawable/profile_noimage"
-                android:layout_marginLeft="150dp"
+                android:layout_marginLeft="100dp"
+                android:layout_weight="0"
                 app:tint="@color/green_main" />
 
         </LinearLayout>

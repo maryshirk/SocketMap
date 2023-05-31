@@ -2,16 +2,25 @@ package com.samsung.socketmap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +43,9 @@ public class RatingActivity extends AppCompatActivity {
     DatabaseReference placesRef, ratingsRef;
     private RecyclerView recyclerView;
     private PlaceAdapter placeAdapter;
+    private boolean sortByRating = true;
+    double userLat;
+    double userLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +55,27 @@ public class RatingActivity extends AppCompatActivity {
         // database = FirebaseDatabase.getInstance();
         // placesRef = database.getReference("places");
         // ratingsRef = database.getReference("raiting");
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+            String provider = locationManager.getBestProvider(criteria, false);
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                userLat = location.getLatitude();
+                userLng = location.getLongitude();
+                // Обновляем местоположение пользователя
+            }
+        }
 
         // Создаем экземпляр класса для работы с БД
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 // Получаем ссылку на коллекцию "places"
         DatabaseReference placesRef = databaseRef.child("places");
+        ImageButton sortButton = findViewById(R.id.sort_button);
+        sortButton.setImageResource(R.drawable.rating); // По умолчанию: сортировка по рейтингу
 
 // Считываем данные из коллекции "places"
         placesRef.addValueEventListener(new ValueEventListener() {
@@ -112,6 +140,150 @@ public class RatingActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortByRating = !sortByRating;
+                if (sortByRating) {
+                    // Сортировка по рейтингу
+                    sortButton.setImageResource(R.drawable.rating);
+                    placesRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // Создаем список для хранения объектов Place
+                            List<Place> placeList = new ArrayList<>();
+                            // Проходимся по всем дочерним узлам в коллекции
+                            for (DataSnapshot placeSnapshot : dataSnapshot.getChildren()) {
+                                // Получаем объект Place из текущего узла
+                                Place place = placeSnapshot.getValue(Place.class);
+                                // Сбрасываем рейтинг до 0
+                                place.setAvgRating(0);
+                                place.setCountRating(0);
+                                // Получаем ссылку на коллекцию "raiting" для текущего места
+                                Query ratingRef = databaseRef.child("raiting").orderByChild("placeId").equalTo(place.getPlaceId());
+                                // Считываем данные из коллекции "raiting" для текущего места
+                                ratingRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        // Объявляем переменные для подсчета суммы и количества оценок
+                                        int count = 0;
+                                        float sum = 0;
+                                        // Проходимся по всем дочерним узлам в коллекции
+                                        for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                                            // Получаем объект Rating из текущего узла
+                                            Rating rating = ratingSnapshot.getValue(Rating.class);
+                                            // Суммируем все оценки
+                                            sum += rating.getGrade();
+                                            // Увеличиваем счетчик оценок
+                                            count++;
+                                        }
+                                        // Если были оценки, то вычисляем средний рейтинг для текущего места
+                                        if (count > 0) {
+                                            float avgRating = sum / count;
+                                            place.setAvgRating(avgRating);
+                                            place.setCountRating(count);
+                                        }
+                                        // Добавляем текущее место в список
+                                        placeList.add(place);
+                                        Collections.sort(placeList, new Comparator<Place>() {
+                                            @Override
+                                            public int compare(Place o1, Place o2) {
+                                                return Float.compare(o2.getAvgRating(), o1.getAvgRating());
+                                            }
+                                        });
+                                        // Создаем адаптер и устанавливаем его для RecyclerView
+                                        RecyclerView rvPlaces = findViewById(R.id.recyclerView);
+                                        rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        rvPlaces.setAdapter(adapter);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                } else {
+                    // Сортировка по близости к пользователю
+                    sortButton.setImageResource(R.drawable.distance);
+                    placesRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // Создаем список для хранения объектов Place
+                            List<Place> placeList = new ArrayList<>();
+                            // Проходимся по всем дочерним узлам в коллекции
+                            for (DataSnapshot placeSnapshot : dataSnapshot.getChildren()) {
+                                // Получаем объект Place из текущего узла
+                                Place place = placeSnapshot.getValue(Place.class);
+                                // Сбрасываем рейтинг до 0
+                                place.setAvgRating(0);
+                                place.setCountRating(0);
+                                // Получаем ссылку на коллекцию "raiting" для текущего места
+                                Query ratingRef = databaseRef.child("raiting").orderByChild("placeId").equalTo(place.getPlaceId());
+                                // Считываем данные из коллекции "raiting" для текущего места
+                                ratingRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        // Объявляем переменные для подсчета суммы и количества оценок
+                                        int count = 0;
+                                        float sum = 0;
+                                        // Проходимся по всем дочерним узлам в коллекции
+                                        for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                                            // Получаем объект Rating из текущего узла
+                                            Rating rating = ratingSnapshot.getValue(Rating.class);
+                                            // Суммируем все оценки
+                                            sum += rating.getGrade();
+                                            // Увеличиваем счетчик оценок
+                                            count++;
+                                        }
+                                        // Если были оценки, то вычисляем средний рейтинг для текущего места
+                                        if (count > 0) {
+                                            float avgRating = sum / count;
+                                            place.setAvgRating(avgRating);
+                                            place.setCountRating(count);
+                                        }
+                                        // Добавляем текущее место в список
+                                        placeList.add(place);
+                                        Collections.sort(placeList, new Comparator<Place>() {
+                                            @Override
+                                            public int compare(Place o1, Place o2) {
+                                                return Double.compare(o1.getDistance(userLat, userLng, o1.getLatitude(), o1.getLongitude()),
+                                                        o2.getDistance(userLat, userLng, o2.getLatitude(), o2.getLongitude()));
+                                            }
+                                        });
+                                        // Создаем адаптер и устанавливаем его для RecyclerView
+                                        RecyclerView rvPlaces = findViewById(R.id.recyclerView);
+                                        rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        rvPlaces.setAdapter(adapter);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+        });
+
+
+
+
+
 
         ImageView searchBtn = findViewById(R.id.search);
         searchBtn.setOnClickListener(new View.OnClickListener() {
