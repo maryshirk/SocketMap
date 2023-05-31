@@ -3,6 +3,7 @@ package com.samsung.socketmap;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +34,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -198,6 +202,18 @@ public class MapActivity extends AppCompatActivity implements
             myMap.setOnMyLocationButtonClickListener(this);
             myMap.setOnMyLocationClickListener(this);
         }
+
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Получаем последнее известное местоположение
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                // Устанавливаем зум и перемещаем камеру на местоположение пользователя
+                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f));
+            }
+        });
 
         int vectorResourceId = R.drawable.marker_socket;
         Drawable vectorDrawable = getResources().getDrawable(vectorResourceId);

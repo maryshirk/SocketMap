@@ -280,11 +280,7 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
+        
         ImageView searchBtn = findViewById(R.id.search);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
