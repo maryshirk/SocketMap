@@ -18,7 +18,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginBottom="16dp"
             android:textStyle="bold"
-            android:text="@string/address"
+            android:text="@string/addres"
             android:textColor="@color/green_heading"
             android:textSize="20sp" />
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/description2"
+            android:text="@string/description"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
