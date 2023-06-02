@@ -1,12 +1,14 @@
 package com.samsung.socketmap.models;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class User {
     private String name, email, pass, city, phone;
 
     public User(String name, String email, String pass, String city) {
         this.name = name;
         this.email = email;
-        this.pass = pass;
+        this.pass = BCrypt.hashpw(pass, BCrypt.gensalt());
         this.city = city;
         this.phone = "не указано";
     }
@@ -23,10 +25,6 @@ public class User {
         return email;
     }
 
-    public String getPass() {
-        return pass;
-    }
-
     public String getCity() {
         return city;
     }
@@ -37,10 +35,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public void setCity(String city) {
