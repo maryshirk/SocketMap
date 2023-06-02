@@ -3,7 +3,6 @@ package com.samsung.socketmap;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +24,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,15 +37,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,11 +50,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.rengwuxian.materialedittext.MaterialEditText;
-import com.samsung.socketmap.models.Place;
 
-import com.google.android.gms.maps.GoogleMap;
+import com.rengwuxian.materialedittext.MaterialEditText;
+
+
 import com.samsung.socketmap.models.Rating;
+import com.samsung.socketmap.models.Place;
 
 
 public class MapActivity extends AppCompatActivity implements
@@ -74,7 +69,6 @@ public class MapActivity extends AppCompatActivity implements
     private DatabaseReference placesRef;
     private DatabaseReference ratingRef;
     private FirebaseDatabase database;
-    private float averageRating;
     private boolean flag;
     private double placelatitude, placelongitude;
 
@@ -98,7 +92,6 @@ public class MapActivity extends AppCompatActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
-
 
         ImageView ratingIcon = findViewById(R.id.rating_icon);
         ratingIcon.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +187,6 @@ public class MapActivity extends AppCompatActivity implements
                 myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
             }
         });
-
         dialog.show();
     }
 
@@ -205,10 +197,8 @@ public class MapActivity extends AppCompatActivity implements
         myMap.setOnMapLongClickListener(this);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission if not granted
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         } else {
-            // Permission already granted, enable the map to show current location
             myMap.setMyLocationEnabled(true);
             myMap.setOnMyLocationButtonClickListener(this);
             myMap.setOnMyLocationClickListener(this);
@@ -216,13 +206,10 @@ public class MapActivity extends AppCompatActivity implements
 
         if (flag) {
             FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    // Получаем последнее известное местоположение
                     LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    // Устанавливаем зум и перемещаем камеру на местоположение пользователя
                     myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f));
                 }
             });
@@ -242,7 +229,6 @@ public class MapActivity extends AppCompatActivity implements
         vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         vectorDrawable.draw(canvas);
 
-
         placesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -252,12 +238,12 @@ public class MapActivity extends AppCompatActivity implements
                         Double latitude = placeSnapshot.child("latitude").getValue(Double.class);
                         Double longitude = placeSnapshot.child("longitude").getValue(Double.class);
                         if (latitude != null && longitude != null) {
-                            myMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(address).icon(BitmapDescriptorFactory.fromBitmap(bitmap)));
+                            myMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
+                                    .title(address).icon(BitmapDescriptorFactory.fromBitmap(bitmap)));
                         }
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -267,6 +253,7 @@ public class MapActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
                 Dialog dialog = new Dialog(MapActivity.this);
+
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.card_place);
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -285,7 +272,6 @@ public class MapActivity extends AppCompatActivity implements
                 final String[] placeIdneed = new String[1];
 
                 Query query = placesRef.orderByChild("latitude").equalTo(latitude);
-
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -295,18 +281,16 @@ public class MapActivity extends AppCompatActivity implements
                                 if (place.getLongitude() == longitude) {
                                     tv_address.setText(place.getAddress());
                                     tv_description.setText(place.getDescription());
-
                                     placeIdneed[0] = place.getPlaceId();
                                 }
                             }
                         } else {
-                            // Место не найдено
+
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        // Обработка ошибок доступа к базе данных
+
                     }
                 });
 
@@ -316,19 +300,13 @@ public class MapActivity extends AppCompatActivity implements
                 query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Объявляем переменные для подсчета суммы и количества оценок
                         int count = 0;
                         float sum = 0;
-                        // Проходимся по всем дочерним узлам в коллекции
                         for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
-                            // Получаем объект Rating из текущего узла
                             Rating rating = ratingSnapshot.getValue(Rating.class);
-                            // Суммируем все оценки
                             sum += rating.getGrade();
-                            // Увеличиваем счетчик оценок
                             count++;
                         }
-                        // Если были оценки, то вычисляем средний рейтинг для текущего места
                         if (count > 0) {
                             float avgRating = sum / count;
                             ratingBar.setRating(avgRating);
@@ -336,13 +314,11 @@ public class MapActivity extends AppCompatActivity implements
                             ratingBar.setRating(avgRating);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.e(TAG, "Failed to read value.", databaseError.toException());
                     }
                 });
-
 
                 Button btnRating = dialog.getWindow().findViewById(R.id.btn_rating);
                 btnRating.setOnClickListener(new View.OnClickListener() {
@@ -391,20 +367,19 @@ public class MapActivity extends AppCompatActivity implements
                                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                 Rating oldRating = snapshot.getValue(Rating.class);
                                                 if (oldRating.getPlaceId().equals(placeId) && !found) {
-                                                    oldRating.setGrade(rating); // Обновляем значение рейтинга
+                                                    oldRating.setGrade(rating);
                                                     ratingRef.child(snapshot.getKey()).setValue(oldRating);
                                                     found = true;
                                                     break;
                                                 }
                                             }
                                             if (!found) {
-                                                // Рейтинг пользователя для этого места не найден, создаем новый
                                                 ratingRef.child(ratingRef.push().getKey().toString()).setValue(newRating);
                                             }
                                         }
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
-                                            // Обработка ошибок
+
                                         }
                                     });
                                 }
@@ -421,16 +396,11 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        // Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
-        //        .show();
+
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-        //        .show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
         return false;
     }
 }

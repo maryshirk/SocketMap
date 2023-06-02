@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:id="@+id/search_field"
-                android:hint="  Поиск розетки..."
+                android:hint="@string/search_socket"
                 android:background="@drawable/card"
                 android:paddingRight="6dp"
                 android:inputType="text"
@@ -61,7 +61,7 @@
                 android:id="@+id/search"
                 android:background="@drawable/card"
                 android:layout_gravity="center_horizontal"
-                android:tint="@color/gray_text" />
+                app:tint="@color/gray_text" />
 
             <ImageButton
                 android:layout_marginLeft="8dp"
@@ -71,7 +71,7 @@
                 android:src="@drawable/rating"
                 android:id="@+id/sort_button"
                 android:background="@drawable/card"
-                android:tint="@color/gray_text" />
+                app:tint="@color/gray_text" />
 
         </LinearLayout>
 
@@ -190,6 +190,5 @@
         </LinearLayout>
 
     </HorizontalScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

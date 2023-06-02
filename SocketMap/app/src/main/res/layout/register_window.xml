@@ -48,7 +48,7 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
@@ -62,12 +62,6 @@
                 android:textColorHint="@color/gray_text"
                 android:textSize="16sp"/>
 
-<!--                app:met_floatingLabel="normal"-->
-<!--                app:met_singleLineEllipsis="true"-->
-<!--                app:met_baseColor="@color/black"-->
-<!--                app:met_primaryColor="@color/gray_text" -->
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +76,7 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
@@ -96,14 +90,6 @@
                 android:textColorHint="@color/gray_text"
                 android:textSize="16sp"/>
 
-<!--                app:met_floatingLabel="normal"-->
-<!--                app:met_singleLineEllipsis="true"-->
-<!--                app:met_baseColor="@color/black"-->
-<!--                app:met_primaryColor="@color/gray_text"-->
-<!--                app:met_minCharacters="2"-->
-<!--                app:met_maxCharacters="50"-->
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +104,7 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
@@ -132,14 +118,6 @@
                 android:textColorHint="@color/gray_text"
                 android:textSize="16sp"/>
 
-<!--                app:met_floatingLabel="normal"-->
-<!--                app:met_singleLineEllipsis="true"-->
-<!--                app:met_baseColor="@color/black"-->
-<!--                app:met_primaryColor="@color/gray_text"-->
-<!--                app:met_minCharacters="2"-->
-<!--                app:met_maxCharacters="50"-->
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -154,7 +132,7 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
@@ -168,14 +146,6 @@
                 android:textColorHint="@color/gray_text"
                 android:textSize="16sp" />
 
-<!--                app:met_floatingLabel="normal"-->
-<!--                app:met_singleLineEllipsis="true"-->
-<!--                app:met_baseColor="@color/black"-->
-<!--                app:met_primaryColor="@color/gray_text"-->
-<!--                app:met_minCharacters="4"-->
-<!--                app:met_maxCharacters="50"-->
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -190,7 +160,7 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
@@ -203,14 +173,6 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text"
                 android:textSize="16sp" />
-
-<!--                app:met_floatingLabel="normal"-->
-<!--                app:met_singleLineEllipsis="true"-->
-<!--                app:met_baseColor="@color/black"-->
-<!--                app:met_primaryColor="@color/gray_text"-->
-<!--                app:met_minCharacters="4"-->
-<!--                app:met_maxCharacters="50"-->
-
 
         </LinearLayout>
 

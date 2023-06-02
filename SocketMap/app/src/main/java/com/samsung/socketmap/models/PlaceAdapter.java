@@ -45,17 +45,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Получаем ссылку на текущий Place объект, связанный с этой карточкой
                 Place selectedPlace = placeList.get(position);
 
-                // Создаем новый интент для перехода на MapActivity
                 Intent intent = new Intent(mContext, MapActivity.class);
 
-                // Передаем координаты места, чтобы зумировать на него карту
                 intent.putExtra("LATITUDE", selectedPlace.getLatitude());
                 intent.putExtra("LONGITUDE", selectedPlace.getLongitude());
 
-                // Запускаем активность MapActivity
                 mContext.startActivity(intent, null);
             }
         });

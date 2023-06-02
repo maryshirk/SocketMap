@@ -37,7 +37,6 @@
                 app:layout_constraintBottom_toTopOf="@id/main"
                 app:layout_constraintLeft_toLeftOf="@id/main"
                 app:layout_constraintRight_toRightOf="@id/main"
-
                 />
 
             <LinearLayout
@@ -80,7 +79,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Город: "
+                    android:text="@string/city_field"
                     android:textAppearance="@style/title"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -110,7 +109,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Email: "
+                    android:text="@string/email_field"
                     android:textAppearance="@style/title"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -140,7 +139,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Контактный телефон: "
+                    android:text="@string/number_phone"
                     android:textAppearance="@style/title"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -157,7 +156,7 @@
                     android:layout_marginTop="10dp"
                     android:clickable="true"
                     android:focusable="false"
-                    android:text="не указан" />
+                    android:text="@string/no_text" />
 
             </LinearLayout>
 

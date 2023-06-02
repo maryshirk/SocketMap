@@ -18,7 +18,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Добавить место на карту"
+            android:text="@string/add_place"
             android:textAppearance="@style/name"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -28,7 +28,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Создайте описание вашему месту"
+            android:text="@string/create_description"
             android:textAppearance="@style/title"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -48,13 +48,13 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
                 android:layout_height="52dp"
                 android:id="@+id/address"
-                android:hint="Адрес"
+                android:hint="@string/addres"
                 android:background="@drawable/card"
                 android:inputType="text"
                 android:text=""
@@ -76,13 +76,13 @@
                 android:layout_width="60dp"
                 android:layout_height="52dp"
                 android:src="@drawable/icon"
-                android:tint="@color/green_main" />
+                app:tint="@color/green_main" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="252dp"
                 android:layout_height="47dp"
                 android:id="@+id/description"
-                android:hint="Описание"
+                android:hint="@string/description"
                 android:background="@drawable/card"
                 android:inputType="text"
                 android:text=""

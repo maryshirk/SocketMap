@@ -3,6 +3,8 @@ package com.samsung.socketmap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,17 +13,19 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import com.samsung.socketmap.models.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSigninWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        // dialog.setTitle("Войти");
-        // dialog.setMessage("Введите все данные для входа");
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View sing_in_window = inflater.inflate(R.layout.signin_window, null);
@@ -102,20 +104,16 @@ public class MainActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // Snackbar.make(root, "Неверные данные для входа. Ошибка авторизации. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
                                 Snackbar.make(root, e.getMessage(), Snackbar.LENGTH_LONG).show();
                             }
                         });
             }
         });
-
         dialog.show();
     }
 
     private void showRegisterWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        // dialog.setTitle("Зарегистрироваться");
-        // dialog.setMessage("Введите все данные для регистрации");
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View register_window = inflater.inflate(R.layout.register_window, null);
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
         dialog.show();
     }
 }

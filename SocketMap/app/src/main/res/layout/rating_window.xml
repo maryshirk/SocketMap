@@ -18,7 +18,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Добавить рейтинг"
+            android:text="@string/add_rating"
             android:textAppearance="@style/collapsed_title"
             android:textAlignment="center"
             android:textColor="@color/black"

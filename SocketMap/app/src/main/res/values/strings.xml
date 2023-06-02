@@ -27,4 +27,20 @@
         Войдите в учетную запись.</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="socketmap">SocketMap</string>
+    <string name="enter_text">Войдите в учетную запись.</string>
+    <string name="enter_t">Вход</string>
+    <string name="add_rating">Добавить рейтинг</string>
+    <string name="no_text">не указан</string>
+    <string name="number_phone">Контактный телефон:</string>
+    <string name="email_field">Email:</string>
+    <string name="city_field">Город:</string>
+    <string name="description">Описание</string>
+    <string name="addres">Адрес</string>
+    <string name="create_description">Создайте описание вашему месту</string>
+    <string name="add_place">Добавить место на карту</string>
+    <string name="count">Количество отзывов:</string>
+    <string name="description2">Описание</string>
+    <string name="address">Адрес</string>
+    <string name="add_ratings">Добавить рейтинг</string>
+    <string name="search_socket">Поиск розетки...</string>
 </resources>

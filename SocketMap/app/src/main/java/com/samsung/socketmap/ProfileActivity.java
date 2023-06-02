@@ -14,14 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.samsung.socketmap.models.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -74,13 +72,11 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 cityEditText.setText(city);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "onCancelled", databaseError.toException());
             }
         });
-
 
         cityEditText.setOnClickListener(v -> {
             cityEditText.setFocusableInTouchMode(true);
@@ -117,7 +113,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
         ImageView ratingIcon = findViewById(R.id.rating_icon);
         ratingIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +130,5 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

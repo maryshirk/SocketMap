@@ -12,7 +12,7 @@ public class Rating {
     }
 
     public Rating() {
-        // Пустой конструктор без аргументов для Firebase
+        // пустой конструктор без аргументов
     }
 
     public String getPlaceId() {
