@@ -43,4 +43,4 @@ project for Samsung IT School
 3)	Редактирование профиля.
 4)	Следить за рейтингом мест, сортировать и находить для себя подходящие.
 # ER-Diagram
-![Иллюстрация к проекту](https://github.com/maryshirk/SocketMap/blob/main/erdiagram.png)
+![Иллюстрация к проекту](https://github.com/maryshirk/SocketMap/blob/main/erdiagram.jpg)
