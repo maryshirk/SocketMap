@@ -1,5 +1,9 @@
 package com.samsung.socketmap.models;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +13,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.samsung.socketmap.MapActivity;
 import com.samsung.socketmap.R;
+import com.samsung.socketmap.RatingActivity;
 
 import java.util.List;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHolder> {
     private List<Place> placeList;
+    private Context mContext;
 
-    public PlaceAdapter(List<Place> placeList) {
+    public PlaceAdapter(List<Place> placeList, Context context) {
         this.placeList = placeList;
+        this.mContext = context;
     }
 
     @NonNull
@@ -34,6 +42,23 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceViewHol
         holder.tv_description.setText(place.getDescription());
         holder.ratingBar.setRating(place.getAvgRating());
         holder.ratingCount.setText(String.valueOf(place.getCountRating()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Получаем ссылку на текущий Place объект, связанный с этой карточкой
+                Place selectedPlace = placeList.get(position);
+
+                // Создаем новый интент для перехода на MapActivity
+                Intent intent = new Intent(mContext, MapActivity.class);
+
+                // Передаем координаты места, чтобы зумировать на него карту
+                intent.putExtra("LATITUDE", selectedPlace.getLatitude());
+                intent.putExtra("LONGITUDE", selectedPlace.getLongitude());
+
+                // Запускаем активность MapActivity
+                mContext.startActivity(intent, null);
+            }
+        });
     }
 
     @Override

@@ -125,7 +125,7 @@ public class RatingActivity extends AppCompatActivity {
                             // Создаем адаптер и устанавливаем его для RecyclerView
                             RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                             rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
-                            PlaceAdapter adapter = new PlaceAdapter(placeList);
+                            PlaceAdapter adapter = new PlaceAdapter(placeList, RatingActivity.this);
                             rvPlaces.setAdapter(adapter);
                         }
 
@@ -195,7 +195,7 @@ public class RatingActivity extends AppCompatActivity {
                                         // Создаем адаптер и устанавливаем его для RecyclerView
                                         RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                                         rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
-                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList, RatingActivity.this);
                                         rvPlaces.setAdapter(adapter);
                                     }
 
@@ -261,7 +261,7 @@ public class RatingActivity extends AppCompatActivity {
                                         // Создаем адаптер и устанавливаем его для RecyclerView
                                         RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                                         rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
-                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList, RatingActivity.this);
                                         rvPlaces.setAdapter(adapter);
                                     }
 
@@ -280,7 +280,7 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-        
+
         ImageView searchBtn = findViewById(R.id.search);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -340,7 +340,7 @@ public class RatingActivity extends AppCompatActivity {
 
                                         RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                                         rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
-                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList, RatingActivity.this);
                                         rvPlaces.setAdapter(adapter);
                                     }
                                     @Override
@@ -406,7 +406,7 @@ public class RatingActivity extends AppCompatActivity {
 
                                         RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                                         rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
-                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList, RatingActivity.this);
                                         rvPlaces.setAdapter(adapter);
                                     }
                                     @Override
@@ -475,7 +475,7 @@ public class RatingActivity extends AppCompatActivity {
                                         // Создаем адаптер и устанавливаем его для RecyclerView
                                         RecyclerView rvPlaces = findViewById(R.id.recyclerView);
                                         rvPlaces.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
-                                        PlaceAdapter adapter = new PlaceAdapter(placeList);
+                                        PlaceAdapter adapter = new PlaceAdapter(placeList, RatingActivity.this);
                                         rvPlaces.setAdapter(adapter);
                                     }
 

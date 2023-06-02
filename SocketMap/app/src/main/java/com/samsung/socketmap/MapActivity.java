@@ -75,19 +75,30 @@ public class MapActivity extends AppCompatActivity implements
     private DatabaseReference ratingRef;
     private FirebaseDatabase database;
     private float averageRating;
+    private boolean flag;
+    private double placelatitude, placelongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        flag = true;
+
         database = FirebaseDatabase.getInstance();
         placesRef = database.getReference("places");
         ratingRef = database.getReference("raiting");
 
+        placelatitude = getIntent().getDoubleExtra("LATITUDE", 0.0);
+        placelongitude = getIntent().getDoubleExtra("LONGITUDE", 0.0);
+        if (placelatitude != 0.0) {
+            flag = false;
+        }
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
+
 
         ImageView ratingIcon = findViewById(R.id.rating_icon);
         ratingIcon.setOnClickListener(new View.OnClickListener() {
@@ -203,17 +214,23 @@ public class MapActivity extends AppCompatActivity implements
             myMap.setOnMyLocationClickListener(this);
         }
 
-        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (flag) {
+            FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                // Получаем последнее известное местоположение
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                // Устанавливаем зум и перемещаем камеру на местоположение пользователя
-                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f));
-            }
-        });
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    // Получаем последнее известное местоположение
+                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    // Устанавливаем зум и перемещаем камеру на местоположение пользователя
+                    myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f));
+                }
+            });
+        } else {
+            LatLng location = new LatLng(placelatitude, placelongitude);
+            myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+            flag = true;
+        }
 
         int vectorResourceId = R.drawable.marker_socket;
         Drawable vectorDrawable = getResources().getDrawable(vectorResourceId);
@@ -416,5 +433,4 @@ public class MapActivity extends AppCompatActivity implements
         // (the camera animates to the user's current position).
         return false;
     }
-
 }
